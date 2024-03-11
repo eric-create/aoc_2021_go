@@ -10,15 +10,25 @@ import (
 func main() {
 	lines, _ := utils.ReadLines("input.txt")
 	movements := Vectors(*lines)
-	finish := Move(&vectors.Vector{X: 0, Y: 0}, movements)
-	fmt.Println(finish.X * finish.Y)
+	Move(&vectors.Vector{X: 0, Y: 0}, movements)
 }
 
-func Move(v *vectors.Vector, movements []*vectors.Vector) *vectors.Vector {
+func Move(v *vectors.Vector, movements []*vectors.Vector) {
+	x, y, aim := 0, 0, 0
+
 	for _, movement := range movements {
-		*v = *v.Add(movement)
+
+		// forward
+		if movement.X != 0 {
+			x += movement.X
+			y += movement.X * aim
+
+		} else { // up, down
+			aim += movement.Y
+		}
 	}
-	return v
+
+	fmt.Println(x * y)
 }
 
 func Vectors(lines []string) []*vectors.Vector {
