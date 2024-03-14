@@ -56,6 +56,31 @@ func ExtractInt(s string) (int, error) {
 	return strconv.Atoi(string(digits))
 }
 
+func ExtractInts(s string) []int {
+	numbers := [][]rune{{}}
+	lastDigit := -2
+
+	for i, r := range s {
+		if _, err := strconv.Atoi(string(r)); err == nil {
+			if i-lastDigit > 1 {
+				numbers = append(numbers, []rune{r})
+			} else {
+				numbers[len(numbers)-1] = append(numbers[len(numbers)-1], r)
+			}
+
+			lastDigit = i
+		}
+	}
+
+	ints := []int{}
+	for _, number := range numbers {
+		_int, _ := strconv.Atoi(string(number))
+		ints = append(ints, _int)
+	}
+
+	return ints
+}
+
 func DescriptorInt(descriptor, s string, delimiter *string) (int, error) {
 	re := regexp.MustCompile(descriptor)
 	indexes := re.FindStringIndex(s)
@@ -75,4 +100,20 @@ func DescriptorInt(descriptor, s string, delimiter *string) (int, error) {
 	}
 
 	return strconv.Atoi(s[valueStart : valueEnd+1])
+}
+
+func SplitParagraphs(lines []string) [][]string {
+	paragraphs := [][]string{}
+	paragraph := []string{}
+
+	for _, line := range lines {
+		if line == "" {
+			paragraphs = append(paragraphs, paragraph)
+			paragraph = []string{}
+		} else {
+			paragraph = append(paragraph, line)
+		}
+	}
+
+	return paragraphs
 }
