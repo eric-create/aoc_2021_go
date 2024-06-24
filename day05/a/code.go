@@ -4,27 +4,23 @@ import (
 	"eric-create/aoc_2021/nodes"
 	"eric-create/aoc_2021/utils"
 	"eric-create/aoc_2021/vectors"
+	"slices"
 )
 
 func main() {
 	textLines, _ := utils.ReadLines("input.txt")
 	lines, xMax, yMax := GetLines((*textLines)[:len(*textLines)-1])
+	lines = Filter(lines)
 
 	field := nodes.EmptyField(xMax, yMax)
 
-	for _, line := range *lines {
+	for _, line := range lines {
 		line.Walk(&field)
 	}
 	nodes.Print(field)
 }
 
-// func SetLines(lines []*Line, field *[][]nodes.Node) {
-// 	for _, line := range lines {
-
-// 	}
-// }
-
-func GetLines(textLines []string) (*[]*Line, int, int) {
+func GetLines(textLines []string) ([]*Line, int, int) {
 	lines := []*Line{}
 
 	var line *Line = nil
@@ -36,7 +32,7 @@ func GetLines(textLines []string) (*[]*Line, int, int) {
 		lines = append(lines, line)
 	}
 
-	return &lines, xMax + 1, yMax + 1
+	return lines, xMax + 1, yMax + 1
 }
 
 func GetLine(textLine string, xMax, yMax int) (*Line, int, int) {
@@ -95,7 +91,7 @@ func (l *Line) Walk(field *[][]*nodes.Node) {
 
 		// Create node if never been there.
 		if (*field)[cursor.Y][cursor.X] == nil {
-			(*field)[cursor.Y][cursor.X] = nodes.NewNode(cursor.X, cursor.Y, "x")
+			(*field)[cursor.Y][cursor.X] = nodes.NewNode(cursor.X, cursor.Y, "o")
 		}
 
 		// Always tag.
@@ -111,3 +107,23 @@ func (l *Line) Walk(field *[][]*nodes.Node) {
 		}
 	}
 }
+
+func Filter(lines []*Line) []*Line {
+	filtered := []*Line{}
+
+	for _, line := range lines {
+		if slices.Contains(vectors.ManhattanDirections(), *line.Direction) {
+			filtered = append(filtered, line)
+		}
+	}
+
+	return filtered
+}
+
+// func CountPoints(field *[][]*nodes.Node, xMax, yMax int) int {
+// 	for y := 0; y < yMax; y++ {
+// 		for x := 0; x < xMax; x++ {
+
+// 		}
+// 	}
+// }
