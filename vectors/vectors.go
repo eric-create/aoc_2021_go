@@ -1,5 +1,7 @@
 package vectors
 
+import "eric-create/aoc_2021/utils"
+
 type Vector struct {
 	X int
 	Y int
@@ -78,4 +80,15 @@ func Horizontal() []Vector {
 		Right(),
 		Left(),
 	}
+}
+
+func Normalize(v *Vector) *Vector {
+	x := utils.NormalizeInt(v.X)
+	y := utils.NormalizeInt(v.Y)
+	return NewVector(x, y)
+}
+
+// Returns the vector that points from a to b
+func Difference(a, b *Vector) *Vector {
+	return NewVector(b.X-a.X, b.Y-a.Y)
 }

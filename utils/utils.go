@@ -57,7 +57,7 @@ func ExtractInt(s string) (int, error) {
 }
 
 func ExtractInts(s string) []int {
-	numbers := [][]rune{{}}
+	numbers := [][]rune{}
 	lastDigit := -2
 
 	for i, r := range s {
@@ -116,4 +116,13 @@ func SplitParagraphs(lines []string) [][]string {
 	}
 
 	return paragraphs
+}
+
+func NormalizeInt(i int) int {
+	if i > 0 {
+		return 1
+	} else if i == 0 {
+		return 0
+	}
+	return -1
 }

@@ -2,6 +2,8 @@ package nodes
 
 import (
 	"eric-create/aoc_2021/vectors"
+	"fmt"
+	"slices"
 	"strconv"
 )
 
@@ -70,4 +72,54 @@ func DiscoverNeighbors(field *[][]*Node) {
 			}
 		}
 	}
+}
+
+func EmptyField(xMax, yMax int) [][]*Node {
+	field := [][]*Node{}
+
+	for y := 0; y < yMax; y++ {
+		field = append(field, []*Node{})
+
+		for x := 0; x < xMax; x++ {
+			field[y] = append(field[y], nil)
+		}
+	}
+
+	return field
+}
+
+func Print(field [][]*Node) {
+	for _, nodes := range field {
+		for _, node := range nodes {
+			if node != nil {
+				symbol := node.Symbol
+				if len(symbol) == 1 {
+					symbol = symbol + " "
+				}
+				fmt.Print(symbol, " ")
+			} else {
+				fmt.Print(".. ")
+			}
+		}
+		fmt.Println()
+	}
+	fmt.Println()
+}
+
+func PrintField(field [][]*Node, tag string) {
+	for _, nodes := range field {
+		for _, node := range nodes {
+			if slices.Contains(node.Tags, tag) {
+				symbol := node.Symbol
+				if len(symbol) == 1 {
+					symbol = symbol + " "
+				}
+				fmt.Print(symbol, " ")
+			} else {
+				fmt.Print(".. ")
+			}
+		}
+		fmt.Println()
+	}
+	fmt.Println()
 }

@@ -3,7 +3,6 @@ package main
 import (
 	"eric-create/aoc_2021/nodes"
 	"eric-create/aoc_2021/utils"
-	"fmt"
 	"slices"
 )
 
@@ -18,26 +17,8 @@ func main() {
 	boards := Boards(paragraphs, calls)
 
 	for _, board := range boards {
-		PrintBoard(board)
+		nodes.PrintField(board, CALLED)
 	}
-}
-
-func PrintBoard(board [][]*nodes.Node) {
-	for _, nodes := range board {
-		for _, node := range nodes {
-			if slices.Contains(node.Tags, CALLED) {
-				s := node.Symbol
-				if len(s) == 1 {
-					s = s + " "
-				}
-				fmt.Print(s, " ")
-			} else {
-				fmt.Print(".. ")
-			}
-		}
-		fmt.Println()
-	}
-	fmt.Println()
 }
 
 func Boards(paragraphs [][]string, calls []int) [][][]*nodes.Node {
@@ -46,7 +27,6 @@ func Boards(paragraphs [][]string, calls []int) [][][]*nodes.Node {
 	for _, paragraph := range paragraphs {
 		intsSlice := ParagraphsToIntsSlice(paragraph)
 		board := nodes.IntsToField(intsSlice)
-		MarkCalls(&board, calls)
 		boards = append(boards, board)
 	}
 
