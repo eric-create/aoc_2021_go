@@ -4,6 +4,7 @@ import (
 	"eric-create/aoc_2021/nodes"
 	"eric-create/aoc_2021/utils"
 	"eric-create/aoc_2021/vectors"
+	"fmt"
 	"slices"
 )
 
@@ -13,11 +14,12 @@ func main() {
 	lines = Filter(lines)
 
 	field := nodes.EmptyField(xMax, yMax)
-
 	for _, line := range lines {
 		line.Walk(&field)
 	}
-	nodes.Print(field)
+	fmt.Println(CountPoints(&field, xMax, yMax))
+	// nodes.Print(field)
+
 }
 
 func GetLines(textLines []string) ([]*Line, int, int) {
@@ -120,10 +122,20 @@ func Filter(lines []*Line) []*Line {
 	return filtered
 }
 
-// func CountPoints(field *[][]*nodes.Node, xMax, yMax int) int {
-// 	for y := 0; y < yMax; y++ {
-// 		for x := 0; x < xMax; x++ {
+func CountPoints(field *[][]*nodes.Node, xMax, yMax int) int {
+	points := 0
 
-// 		}
-// 	}
-// }
+	for y := 0; y < yMax; y++ {
+		for x := 0; x < xMax; x++ {
+			if (*field)[y][x] != nil {
+
+				node := (*field)[y][x]
+				if len(node.Tags) > 1 {
+					node.Symbol = "x"
+					points++
+				}
+			}
+		}
+	}
+	return points
+}
