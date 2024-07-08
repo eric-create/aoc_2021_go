@@ -106,12 +106,14 @@ func SplitParagraphs(lines []string) [][]string {
 	paragraphs := [][]string{}
 	paragraph := []string{}
 
-	for _, line := range lines {
-		if line == "" {
+	for i, line := range lines {
+		if line != "" {
+			paragraph = append(paragraph, line)
+		}
+
+		if line == "" || i == len(lines)-1 {
 			paragraphs = append(paragraphs, paragraph)
 			paragraph = []string{}
-		} else {
-			paragraph = append(paragraph, line)
 		}
 	}
 
