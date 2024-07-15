@@ -11,6 +11,7 @@ func main() {
 	lines, _ := utils.ReadLines("Input.txt")
 	numbers := utils.ExtractInts((*lines)[0])
 	sort.Ints(numbers)
+	// fmt.Println(numbers)
 	count := len(numbers)
 
 	median_1 := Cost(numbers, numbers[count/2])

@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"math"
 	"os"
 	"regexp"
 	"strconv"
@@ -127,4 +128,8 @@ func NormalizeInt(i int) int {
 		return 0
 	}
 	return -1
+}
+
+func AbsDiff(a, b int) int {
+	return int(math.Abs(float64(a - b)))
 }
