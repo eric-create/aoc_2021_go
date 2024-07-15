@@ -133,3 +133,18 @@ func NormalizeInt(i int) int {
 func AbsDiff(a, b int) int {
 	return int(math.Abs(float64(a - b)))
 }
+
+func NumberLiterals() []string {
+	return []string{
+		"zero",
+		"one",
+		"two",
+		"three",
+		"four",
+		"five",
+		"six",
+		"seven",
+		"eight",
+		"nine",
+	}
+}
