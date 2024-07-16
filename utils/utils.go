@@ -4,6 +4,7 @@ import (
 	"math"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -147,4 +148,12 @@ func NumberLiterals() []string {
 		"eight",
 		"nine",
 	}
+}
+
+func SortRuneSlice(runeSlice []rune) []rune {
+	sort.Slice(runeSlice, func(i, j int) bool {
+		return runeSlice[i] < runeSlice[j]
+	})
+
+	return runeSlice
 }
