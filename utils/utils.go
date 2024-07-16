@@ -157,3 +157,8 @@ func SortRuneSlice(runeSlice []rune) []rune {
 
 	return runeSlice
 }
+
+func RuneToInt(r rune) int {
+	i, _ := strconv.Atoi(string(r))
+	return i
+}

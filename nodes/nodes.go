@@ -18,6 +18,22 @@ func (n *Node) SetNeighbor(neighbor *Node, direction vectors.Vector) {
 	n.Neigbors[direction.Y+1][direction.X+1] = neighbor
 }
 
+func (n *Node) GetNeighbor(direction vectors.Vector) *Node {
+	return n.Neigbors[direction.Y+1][direction.X+1]
+}
+
+func (n *Node) GetNeighbors(directions []vectors.Vector) []*Node {
+	neighbors := []*Node{}
+
+	for _, direction := range directions {
+		if neighbor := n.GetNeighbor(direction); neighbor != nil {
+			neighbors = append(neighbors, neighbor)
+		}
+	}
+
+	return neighbors
+}
+
 func (n *Node) SymbolToInt() int {
 	i, _ := strconv.Atoi(n.Symbol)
 	return i
@@ -63,12 +79,12 @@ func DiscoverNeighbors(field *[][]*Node) {
 
 			// Right
 			if x < len((*field)[y])-1 {
-				(*field)[y][x].SetNeighbor((*field)[y][x+1], vectors.Left())
+				(*field)[y][x].SetNeighbor((*field)[y][x+1], vectors.Right())
 			}
 
 			// Down
 			if y < len(*field)-1 {
-				(*field)[y][x].SetNeighbor((*field)[y+1][x], vectors.Left())
+				(*field)[y][x].SetNeighbor((*field)[y+1][x], vectors.Down())
 			}
 		}
 	}
@@ -106,7 +122,21 @@ func Print(field [][]*Node) {
 	fmt.Println()
 }
 
-func PrintField(field [][]*Node, tag string) {
+func PrintField(field [][]*Node) {
+	for _, nodes := range field {
+		for _, node := range nodes {
+			symbol := node.Symbol
+			if len(symbol) == 1 {
+				symbol = symbol + " "
+			}
+			fmt.Print(symbol, " ")
+		}
+		fmt.Println()
+	}
+	fmt.Println()
+}
+
+func PrintFieldWithTag(field [][]*Node, tag string) {
 	for _, nodes := range field {
 		for _, node := range nodes {
 			if slices.Contains(node.Tags, tag) {
