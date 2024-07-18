@@ -65,29 +65,33 @@ func IntsToField(ints [][]int) [][]*Node {
 }
 
 func DiscoverNeighbors(field *[][]*Node) {
-	for y := range *field {
-		for x := range (*field)[y] {
-			// Left
-			if x > 0 {
-				(*field)[y][x].SetNeighbor((*field)[y][x-1], vectors.Left())
-			}
-
-			// Up
-			if y > 0 {
-				(*field)[y][x].SetNeighbor((*field)[y-1][x], vectors.Up())
-			}
-
-			// Right
-			if x < len((*field)[y])-1 {
-				(*field)[y][x].SetNeighbor((*field)[y][x+1], vectors.Right())
-			}
-
-			// Down
-			if y < len(*field)-1 {
-				(*field)[y][x].SetNeighbor((*field)[y+1][x], vectors.Down())
+	for _, row := range *field {
+		for _, node := range row {
+			for _, direction := range vectors.AllDirections() {
+				if position := Navigate(*field, node.Position, direction); position != nil {
+					node.SetNeighbor((*field)[position.Y][position.X], direction)
+				}
 			}
 		}
 	}
+}
+
+// Returns `nil` if there is no neighbor in the specified `direction`, that means that an
+// edge of `field` was reached.
+func Navigate[T any](field [][]T, position, direction vectors.Vector) *vectors.Vector {
+	xMax := len(field[0]) - 1
+	yMax := len(field) - 1
+
+	xNew := position.X + direction.X
+	yNew := position.Y + direction.Y
+
+	if xNew < 0 || xNew > xMax || yNew < 0 || yNew > yMax {
+		return nil
+	}
+
+	new := vectors.Vector{X: xNew, Y: yNew}
+
+	return &new
 }
 
 func EmptyField(xMax, yMax int) [][]*Node {
